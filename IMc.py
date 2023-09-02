@@ -1,9 +1,15 @@
 '''
 Programa para calcular IMC
 '''
+
 M = int(input('Ingrese numero de personas: '))
 suma_imc_obeso = 0
 hombres_obesos = 0
+
+primera_mujer_obesa = ''
+contador_mujer_obesa = 0
+contador_mujeres_mismo_tipo = 0
+tipo_obesidad = ''
 
 for i in range(M):
  
@@ -14,6 +20,7 @@ for i in range(M):
     nombre = input('Ingrese su nombre: ')
 
     IMC = peso/talla**2
+
 
     if IMC >= 24 and sexo == 'M':
 
@@ -45,6 +52,14 @@ for i in range(M):
         else:
             a = 'Obesidad tipo 3'
 
+    if IMC >= 25 and sexo == 'F' and contador_mujer_obesa == 0:
+        primera_mujer_obesa = nombre
+        contador_mujer_obesa = contador_mujer_obesa + 1
+        tipo_obesidad = a
+
+    if a == tipo_obesidad:
+        contador_mujeres_mismo_tipo = contador_mujeres_mismo_tipo + 1        
+
     else:
         print('el sexo debe ser M ó F!!')
     
@@ -55,6 +70,19 @@ if hombres_obesos > 0:
     print(f'el promedio del IMC de hombres con peso mayor al normal es: {prom_obeso} ')
 else: 
     print('no hay hombres con sobrepeso!')
+
+
+if contador_mujer_obesa == 0:
+    print('no hubo mujeres con obesidad prosesadas')
+else:
+    print('la primera mujer con obesidad fue: ',primera_mujer_obesa)
+    
+    if contador_mujeres_mismo_tipo - 1 > 1:
+        print(f'hay {contador_mujeres_mismo_tipo - 1} mujeres con el mismo tipo de obesidad de {primera_mujer_obesa}')
+
+    else:
+        print(f'hay una sola mujer con el mismo tipo de obesidad de {primera_mujer_obesa}')
+
 
 
 
