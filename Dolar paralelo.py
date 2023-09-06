@@ -24,7 +24,7 @@ for i in range(q):
 
     #pregunta 1
 
-    print(f'El precio del dolar paralelo es: {paralelo_dolar}')
+    print(f'El precio del dolar paralelo es: {paralelo_dolar:.2f}')
 
     #pregunta 2
 
