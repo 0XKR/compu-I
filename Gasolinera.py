@@ -55,7 +55,7 @@ while resp == 's':
 
     #Pregunta 2
     tiempo = hora_despacho - hora_llegada
-    print(f'El tiempo transcurrido fue [{tiempo}]')
+    print(f'El tiempo transcurrido fue [{tiempo:.2f}]')
 
     #Pregunta 3 (proceso)
     if tipo_vehiculo != 2 and hora_llegada >= 18:
