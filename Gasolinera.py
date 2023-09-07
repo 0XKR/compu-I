@@ -78,8 +78,6 @@ while resp == 's':
 
         else:
             
-            ultimo_nombre = nombre
-            ultimo_tipo_vehiculo = tipo_vehiculo
             cont_p4 = 0
 
 
