@@ -96,7 +96,11 @@ def main():
             
             
             linea += 1
-
+   
+    arch1.close()
+    arch2.close()
+    arch3.close()
+    arch4.close()
 
     
 
