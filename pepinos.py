@@ -6,5 +6,4 @@ N2=float(input('segundo numero '))
 S=N1+N2
 #resultados
 print(S,"pepinos")
-#Si se quiere agregar una unidad se pone
-S,'pepinos'
+#Si se quiere agregar una unidad se pone #S,'pepinos'
