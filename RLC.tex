@@ -1,0 +1,115 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+
+\title{Analogía entre Circuito RLC Serie y Sistema Masa-Resorte-Amortiguador}
+\author{Tu Nombre}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+Este documento explica la analogía entre un \textbf{circuito RLC serie} (eléctrico) y un \textbf{sistema masa-resorte-amortiguador} (mecánico), incluyendo modelado, ecuaciones diferenciales, transformada de Laplace y funciones de transferencia.
+
+\section{Modelado Matemático}
+
+\subsection{Circuito RLC Serie}
+\begin{circuitikz}[american]
+    \draw (0,0) to[V=$V(t)$] (0,2) -- (2,2) to[L=$L$] (4,2) to[R=$R$] (6,2) -- (8,2) to[C=$C$] (8,0) -- (0,0);
+\end{circuitikz}
+
+La ecuación diferencial del circuito es:
+\[
+V(t) = L \frac{dI(t)}{dt} + R I(t) + \frac{1}{C} \int I(t) \, dt.
+\]
+Derivando para eliminar la integral:
+\[
+L \frac{d^2I(t)}{dt^2} + R \frac{dI(t)}{dt} + \frac{1}{C} I(t) = \frac{dV(t)}{dt}.
+\]
+
+\subsection{Sistema Masa-Resorte-Amortiguador}
+\begin{center}
+\begin{tikzpicture}[
+    mass/.style={rectangle, draw=black, fill=gray!20, thick, minimum width=2cm, minimum height=1cm},
+    spring/.style={thick, decorate, decoration={zigzag, pre length=0.3cm, post length=0.3cm, segment length=6}},
+    damper/.style={thick, decoration={markings, mark connection node=dmp, mark=at position 0.5 with {\node (dmp) [thick, inner sep=0pt, transform shape, rotate=-90, minimum width=10pt, minimum height=3pt, draw=none] {}; \draw [thick] ($(dmp.north east)+(2pt,0)$) -- (dmp.south east) -- (dmp.south west) -- ($(dmp.north west)+(2pt,0)$); \draw [thick] ($(dmp.north)+(0,-3pt)$) -- ($(dmp.north)+(0,3pt)$);}}, postaction={decorate}}]
+    \node [mass] (m) {$m$};
+    \draw [spring] ($(m.west)+(-1,0)$) -- (m.west);
+    \draw [damper] ($(m.east)+(0.5,0)$) -- ($(m.east)+(1.5,0)$);
+    \draw [->, thick] ($(m.east)+(1.5,0.3)$) -- node[above]{$F(t)$} ($(m.east)+(2.5,0.3)$);
+    \draw [->] ($(m.west)+(-1,0.5)$) node[above]{$k$} -- ($(m.west)+(-1,-0.2)$);
+    \draw [->] ($(m.east)+(1,0.5)$) node[above]{$b$} -- ($(m.east)+(1,-0.2)$);
+\end{tikzpicture}
+\end{center}
+
+La ecuación diferencial del sistema mecánico es:
+\[
+F(t) = m \frac{d^2x(t)}{dt^2} + b \frac{dx(t)}{dt} + k x(t).
+\]
+
+\section{Analogías}
+\subsection{Analogía Fuerza-Voltaje (Directa)}
+\begin{table}[h]
+\centering
+\caption{Analogía entre sistemas eléctrico y mecánico}
+\begin{tabular}{ll}
+\toprule
+\textbf{Eléctrico} & \textbf{Mecánico} \\
+\midrule
+Voltaje $V(t)$ & Fuerza $F(t)$ \\
+Corriente $I(t)$ & Velocidad $v(t) = \dot{x}(t)$ \\
+Inductancia $L$ & Masa $m$ \\
+Resistencia $R$ & Coeficiente de amortiguamiento $b$ \\
+Capacitancia $C$ & Inverso de rigidez $1/k$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Funciones de Transferencia}
+\subsection{Circuito RLC}
+Aplicando Laplace a la ecuación del circuito:
+\[
+\frac{V_C(s)}{V(s)} = \frac{1}{L C s^2 + R C s + 1}.
+\]
+
+\subsection{Sistema Mecánico}
+Aplicando Laplace a la ecuación mecánica:
+\[
+\frac{X(s)}{F(s)} = \frac{1}{m s^2 + b s + k}.
+\]
+
+\section{Ejemplo Numérico}
+\subsection{Datos}
+\begin{itemize}
+    \item Circuito RLC: $R = 2\,\Omega$, $L = 1\,H$, $C = 0.5\,F$.
+    \item Sistema mecánico: $m = 1\,kg$, $b = 2\,N\cdot s/m$, $k = 2\,N/m$.
+\end{itemize}
+
+\subsection{Funciones de Transferencia}
+Para el circuito RLC:
+\[
+\frac{V_C(s)}{V(s)} = \frac{1}{0.5 s^2 + s + 1}.
+\]
+
+Para el sistema mecánico:
+\[
+\frac{X(s)}{F(s)} = \frac{1}{s^2 + 2s + 2}.
+\]
+
+\section{Conclusión}
+Ambos sistemas son análogos bajo las equivalencias:
+\[
+L \leftrightarrow m, \quad R \leftrightarrow b, \quad \frac{1}{C} \leftrightarrow k.
+\]
+
+\end{document}
