@@ -1,0 +1,172 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{circuitikz}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{a4paper, margin=2cm}
+
+\title{Análisis Detallado de Circuitos RL y RC en Serie}
+\author{Tu Nombre}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% ===== SECCIÓN 1: INTRODUCCIÓN =====
+\section{Introducción}
+Este documento presenta el análisis completo de circuitos RL y RC en serie, incluyendo:
+\begin{itemize}
+    \item Resolución de ecuaciones diferenciales (EDOs)
+    \item Aplicación de Transformada de Laplace
+    \item Obtención de funciones de transferencia
+    \item Comparación de respuestas temporales
+\end{itemize}
+
+% ===== SECCIÓN 2: CIRCUITO RL =====
+\section{Circuito RL en Serie}
+
+\subsection{Modelado Matemático}
+\begin{circuitikz}[scale=0.8]
+    \draw (0,0) to[V, l=$V$, invert] (0,2)
+          to[R, l=$R$, i>^=$i(t)$] (3,2)
+          to[L, l=$L$, v=$V_L(t)$] (3,0) -- (0,0);
+\end{circuitikz}
+
+\subsection{Resolución de la EDO}
+La ecuación diferencial del circuito:
+\[
+V = Ri(t) + L\frac{di(t)}{dt}
+\]
+
+\subsubsection{Solución Homogénea}
+\[
+L\frac{di}{dt} + Ri = 0 \implies \frac{di}{i} = -\frac{R}{L}dt
+\]
+Integrando ambos lados:
+\[
+\ln i(t) = -\frac{R}{L}t + C \implies i_h(t) = Ke^{-(R/L)t}
+\]
+
+\subsubsection{Solución Particular}
+Para entrada constante $V$:
+\[
+i_p(t) = \frac{V}{R}
+\]
+
+\subsubsection{Solución General}
+\[
+i(t) = i_h + i_p = Ke^{-(R/L)t} + \frac{V}{R}
+\]
+Con condición inicial $i(0) = 0$:
+\[
+0 = K + \frac{V}{R} \implies K = -\frac{V}{R}
+\]
+\[
+\boxed{i(t) = \frac{V}{R}\left(1 - e^{-(R/L)t}\right)}
+\]
+
+\subsection{Transformada de Laplace}
+Aplicando Laplace a la EDO:
+\[
+\mathcal{L}\{V\} = R\mathcal{L}\{i(t)\} + L\mathcal{L}\left\{\frac{di}{dt}\right\}
+\]
+\[
+\frac{V}{s} = RI(s) + L(sI(s) - i(0))
+\]
+Con $i(0) = 0$:
+\[
+\frac{V}{s} = I(s)(R + Ls) \implies \boxed{I(s) = \frac{V}{s(R + Ls)}}
+\]
+
+\subsection{Función de Transferencia}
+\[
+H_{RL}(s) = \frac{I(s)}{V(s)} = \frac{1}{R + Ls} = \boxed{\frac{1/R}{1 + (L/R)s}}
+\]
+
+% ===== SECCIÓN 3: CIRCUITO RC =====
+\section{Circuito RC en Serie}
+
+\subsection{Modelado Matemático}
+\begin{circuitkz}[scale=0.8]
+    \draw (0,0) to[V, l=$V$, invert] (0,2)
+          to[R, l=$R$, i>^=$i(t)$] (3,2)
+          to[C, l=$C$, v=$V_C(t)$] (3,0) -- (0,0);
+\end{circuitikz}
+
+\subsection{Resolución de la EDO}
+La ecuación diferencial:
+\[
+V = Ri(t) + \frac{1}{C}\int i(t) dt
+\]
+
+\subsubsection{Diferenciando}
+\[
+0 = R\frac{di}{dt} + \frac{i}{C} \implies \frac{di}{i} = -\frac{1}{RC}dt
+\]
+Solución:
+\[
+i(t) = Ke^{-t/(RC)}
+\]
+
+\subsubsection{Usando $V_C(t)$}
+\[
+i(t) = C\frac{dV_C}{dt} \implies V = RC\frac{dV_C}{dt} + V_C
+\]
+Solución homogénea:
+\[
+V_{C,h}(t) = Ke^{-t/(RC)}
+\]
+Solución particular:
+\[
+V_{C,p}(t) = V
+\]
+Solución general:
+\[
+V_C(t) = V + Ke^{-t/(RC)}
+\]
+Con $V_C(0) = 0$:
+\[
+\boxed{V_C(t) = V\left(1 - e^{-t/(RC)}\right)}
+\]
+
+\subsection{Transformada de Laplace}
+Aplicando Laplace a la EDO:
+\[
+\frac{V}{s} = RI(s) + \frac{I(s)}{Cs}
+\]
+\[
+I(s) = \frac{V}{s(R + 1/(Cs))} = \frac{CV}{RCs + 1}
+\]
+Para $V_C(s)$:
+\[
+V_C(s) = \frac{I(s)}{Cs} = \boxed{\frac{V}{s(RCs + 1)}}
+\]
+
+\subsection{Función de Transferencia}
+\[
+H_{RC}(s) = \frac{V_C(s)}{V(s)} = \boxed{\frac{1}{RCs + 1} = \frac{1}{1 + RCs}}
+\]
+
+% ===== SECCIÓN 4: COMPARACIÓN =====
+\section{Tabla Comparativa}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Característica} & \textbf{RL} & \textbf{RC} \\
+        \midrule
+        EDO & $L\frac{di}{dt} + Ri = V$ & $RC\frac{dV_C}{dt} + V_C = V$ \\
+        Solución Homogénea & $Ke^{-(R/L)t}$ & $Ke^{-t/(RC)}$ \\
+        Solución Particular & $\frac{V}{R}$ & $V$ \\
+        Transformada de $I(s)$ & $\frac{V}{s(R + Ls)}$ & $\frac{CV}{RCs + 1}$ \\
+        Función de Transferencia & $\frac{1/R}{1 + (L/R)s}$ & $\frac{1}{1 + RCs}$ \\
+        Constante de Tiempo & $\tau = L/R$ & $\tau = RC$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparación matemática detallada}
+\end{table}
+
+\end{document}
